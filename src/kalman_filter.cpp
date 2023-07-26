@@ -21,7 +21,7 @@ Eigen::VectorXd KalmanFilter::update(Eigen::VectorXd &z_k) {
     for (int i = 0; i < dim_z; i++) {
         H(i,i) = 1;
     }
-    K = P * H.transpose() * (H * P * H.transpose() + R).inverse();
+    K = H * P * H.transpose() * (H * P * H.transpose() + R).inverse();
 	x_k = x_p_k + K * (z_k - H * x_p_k);
 	P = P - K * H * P;
     x_l_k = x_p_k;
