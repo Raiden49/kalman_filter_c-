@@ -1,5 +1,7 @@
 #include "proj_kalman/kalman_filter.hpp"
 
+#include <iostream>
+
 namespace proj_kalman {
 void KalmanFilter::init(Eigen::VectorXd &x_k) {
     this->x_p_k = x_k;
@@ -21,10 +23,10 @@ Eigen::VectorXd KalmanFilter::update(Eigen::VectorXd &z_k) {
     for (int i = 0; i < dim_z; i++) {
         H(i,i) = 1;
     }
-    K = H * P * H.transpose() * (H * P * H.transpose() + R).inverse();
+    K = P * H.transpose() * (H * P * H.transpose() + R).inverse();
 	x_k = x_p_k + K * (z_k - H * x_p_k);
 	P = P - K * H * P;
-    x_l_k = x_p_k;
+    x_l_k = x_k;
 	return x_k;
 }
 
