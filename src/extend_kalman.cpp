@@ -8,9 +8,9 @@ void ExtendKalman::init(Eigen::VectorXd &x_k) {
 }
 
 Eigen::VectorXd ExtendKalman::predict(Eigen::VectorXd &u, double t) {
-   	 A = df_ctrv(x_l_k, u, t);
+   	A = df_ctrv(x_l_k, u, t);
     	Eigen::MatrixXd W = se_df_ctrv(x_l_k, u, t);
-   	 x_p_k = ctrv(x_l_k, u, t);
+   	x_p_k = ctrv(x_l_k, u, t);
     	P = A * P * A.transpose() + W * Q * W.transpose();
     	return x_p_k;
 }
