@@ -2,27 +2,27 @@
 
 namespace proj_kalman {
 void ExtendKalman::init(Eigen::VectorXd &x_k) {
-    this->x_p_k = x_k;
-    this->x_l_k = x_k;
-    this->P = Eigen::MatrixXd::Zero(dim_x, dim_x);
+    	this->x_p_k = x_k;
+    	this->x_l_k = x_k;
+    	this->P = Eigen::MatrixXd::Zero(dim_x, dim_x);
 }
 
 Eigen::VectorXd ExtendKalman::predict(Eigen::VectorXd &u, double t) {
-    A = df_ctrv(x_l_k, u, t);
-    Eigen::MatrixXd W = se_df_ctrv(x_l_k, u, t);
-    x_p_k = ctrv(x_l_k, u, t);
-	P = A * P * A.transpose() + W * Q * W.transpose();
-	return x_p_k;
+   	 A = df_ctrv(x_l_k, u, t);
+    	Eigen::MatrixXd W = se_df_ctrv(x_l_k, u, t);
+   	 x_p_k = ctrv(x_l_k, u, t);
+    	P = A * P * A.transpose() + W * Q * W.transpose();
+    	return x_p_k;
 }
 
 Eigen::VectorXd ExtendKalman::update(Eigen::VectorXd &z_k) {
-    H = df_ctrv_sensor(x_p_k);
-    Eigen::MatrixXd V = se_df_ctrv_sensor(x_p_k);
-    K = P * H.transpose() * (H * P * H.transpose() + V * R * V.transpose()).inverse();
-	x_k = x_p_k + K * (z_k - ctrv_sensor(x_p_k));
-	P = P - K * H * P;
-    x_l_k = x_k;
-	return x_k;
+    	H = df_ctrv_sensor(x_p_k);
+    	Eigen::MatrixXd V = se_df_ctrv_sensor(x_p_k);
+    	K = P * H.transpose() * (H * P * H.transpose() + V * R * V.transpose()).inverse();
+    	x_k = x_p_k + K * (z_k - ctrv_sensor(x_p_k));
+    	P = P - K * H * P;
+    	x_l_k = x_k;
+    	return x_k;
 }
 
 Eigen::MatrixXd ExtendKalman::ctrv(Eigen::VectorXd &x_l_k, Eigen::VectorXd &u, double t) {
@@ -115,7 +115,7 @@ Eigen::MatrixXd ExtendKalman::ctrv_sensor(Eigen::VectorXd &x_p_k) {
 	Matrix(0, 4) = 0; Matrix(1, 0) = 0; Matrix(1, 1) = 1; Matrix(1, 2) = 0;
 	Matrix(1, 3) = 0; Matrix(1, 4) = 0; 
     
-    Matrix = Matrix * x_p_k;
+    	Matrix = Matrix * x_p_k;
 
 	return Matrix;
 }
