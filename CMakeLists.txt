@@ -10,7 +10,6 @@ include_directories(include)
 # include Eigen3 ( your path )
 include_directories("E:\\study\\c-tools\\eigen-3.2.10")
 
-#create rm_trajectory lib
 add_library(${PROJECT_NAME} SHARED
     "src/kalman_filter.cpp"
     "src/extend_kalman.cpp"
